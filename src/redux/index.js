@@ -1,20 +1,17 @@
-import { createStore } from 'redux';
-import { TOGGLE_LOGIN } from './auth';
+import { createStore, combineReducers } from 'redux';
+import authReducer from './auth';
+import registrationFormReducer from './registration/reducers';
 
 const initialState = {
-    isSignedIn: false
+    isSignedIn: false,
 }
 
-function covidCorpsApp(state = initialState, action) {
-    switch (action.type) {
-        case TOGGLE_LOGIN:
-            return {
-                ...state,
-                isSignedIn: !state.isSignedIn
-            }
-        default:
-            return state;
-    }
-}
+const covidCorpsApp = combineReducers({
+    auth: authReducer,
+    registrationForm: registrationFormReducer
+})
 
-export const store = createStore(covidCorpsApp)
+export const store = createStore(
+    covidCorpsApp,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)

@@ -10,7 +10,7 @@ import {Container, Row, Col} from 'react-bootstrap';
 
 import Header from '../redux/containers/Header';
 import Home from '../redux/containers/Home';
-import Register from './Register';
+import Register from '../redux/registration/container';
 
 import {
   BrowserRouter as Router,

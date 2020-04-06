@@ -6,7 +6,7 @@ import { Navbar, Nav } from 'react-bootstrap';
 
 const Header = ({ isSignedIn, onLoginClick }) => (
   <Navbar bg="light" expand="lg">
-    <Navbar.Brand href="#home">CovidCorps</Navbar.Brand>
+    <Navbar.Brand href="/">CovidCorps</Navbar.Brand>
     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
       <Nav className="ml-auto" onClick={onLoginClick}>
         { isSignedIn ? (
