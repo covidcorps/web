@@ -1,0 +1,7 @@
+.infinite-paper {
+  box-shadow: 0 2px 2px 0;
+  border-radius: 4px;
+  background-color: rgba(230, 230, 230, .5);
+  padding: 30px;
+  margin-top: 19px;
+}
