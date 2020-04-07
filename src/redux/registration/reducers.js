@@ -12,7 +12,10 @@ const initialState = {
   city: '',
   state: '',
   zip: '',
-  phones: [''],
+  phones: [{
+    type: 'Home',
+    number: ''
+  }],
   emails: ['']
 }
 
@@ -36,7 +39,7 @@ function registrationFormReducer(state = initialState, action) {
       // If add operation was requested, we join the existing array with a new array filled with incr blanks
       return {
         ...state,
-        [action.fieldName]: [...state[action.fieldName], ...[...Array(action.incr).keys()].map(() => '')]
+        [action.fieldName]: [...state[action.fieldName], ...[...Array(action.incr).keys()].map(() => ({ type: 'Home', number: '' }))]
       }
     default:
       return state;
