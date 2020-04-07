@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { loadUserProfile, changeAssignmentStatus } from './duck';
+import { loadUserProfile, loadUserAssignments, changeAssignmentStatus } from './duck';
 
 import {
   Container, Row, Col
@@ -11,11 +11,9 @@ import {
 
 class Profile extends React.Component {
   componentDidMount() {
-    const { actions: {
-      loadUserProfile
-    }} = this.props;
-
-    loadUserProfile();
+    const { actions: { loadUserProfile, loadUserAssignments, changeAssignmentStatus}} = this.props;
+    loadUserProfile(1);
+    loadUserAssignments(1);
   }
 
   render() {
@@ -39,6 +37,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: {
       loadUserProfile: (userId) => dispatch(loadUserProfile(userId)),
+      loadUserAssignments: (userId) => dispatch(loadUserAssignments(userId)),
       changeAssignmentStatus: (id, accepted) => dispatch(changeAssignmentStatus(id, accepted))
     }
   }

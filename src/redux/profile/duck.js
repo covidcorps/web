@@ -29,6 +29,31 @@ const api = axios.create({
   responseType: 'json'
 })
 
+function significantDigit(n) {
+  while (n >= 10) {
+    n /= 10
+  }
+
+  return Math.trunc(n);
+}
+
+function makePayload(response, error) {
+  if (!response) {
+    return {
+      status: null,
+      data: null,
+      error
+    }
+  }
+
+  return {
+    status: response.status, 
+    data: !error ? response.data : null, 
+    error
+  }
+}
+
+
 export function loadUserProfile(userId) {
   return async (dispatch, getState) => {
     dispatch({
@@ -37,29 +62,24 @@ export function loadUserProfile(userId) {
 
     try {
       const response = await api.get(`corpsmembers/${userId}`);
+      console.log('Result of API request:', response);
       if (response.status === 200) {
         // Request successful
-        const data = JSON.parse(response.data);
         dispatch({
           type: LOAD_USER_PROFILE_COMPLETE,
-          payload: data
+          payload: makePayload(response, null)
         });
       } else {
         dispatch({
           type: LOAD_USER_PROFILE_FAILED,
-          payload: {
-            status: response.status,
-            error: response.data
-          }
+          payload: makePayload(response, response.data)
         });
       }
     } catch (error) {
       console.error(error);
       dispatch({
         type: LOAD_USER_PROFILE_FAILED,
-        payload: {
-          error
-        }
+        payload: makePayload(null, error)
       });
     }
   }
@@ -72,21 +92,18 @@ export function loadUserAssignments(userId) {
     });
 
     try {
-      const response = api.get(`corpsmembers/${userId}/assignments`);
+      const response = await api.get(`corpsmembers/${userId}/assignments`);
+      console.log('Result of API request:', response);
       if (response.status === 200) {
         // OK
-        const data = JSON.parse(response.data);
         dispatch({
           type: LOAD_USER_ASSIGNMENTS_COMPLETE,
-          payload: data
+          payload: makePayload(response, null)
         });
       } else {
         dispatch({
           type: LOAD_USER_PROFILE_FAILED,
-          payload: {
-            status: response.status,
-            error: response.data
-          }
+          payload: makePayload(response, response.data)
         });
       }
 
@@ -94,9 +111,7 @@ export function loadUserAssignments(userId) {
       console.error(e);
       dispatch({
         type: LOAD_USER_ASSIGNMENTS_FAILED,
-        payload: {
-          error: e
-        }
+        payload: makePayload(null, e)
       });
     }
   }
@@ -142,6 +157,30 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         userInfo: {
           ...state.userInfo,
+          loading: false
+        }
+      }
+    case LOAD_USER_ASSIGNMENTS_INPROG:
+      return {
+        ...state,
+        assignments: {
+          ...state.assignments,
+          loading: true
+        }
+      }
+    case LOAD_USER_ASSIGNMENTS_COMPLETE:
+      return {
+        ...state,
+        assignments: {
+          data: action.payload.data,
+          loading: false
+        }
+      }
+    case LOAD_USER_ASSIGNMENTS_FAILED:
+      return {
+        ...state,
+        assignments: {
+          ...state.assignments,
           loading: false
         }
       }
