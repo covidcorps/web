@@ -16,7 +16,7 @@ const initialState = {
     type: 'Home',
     number: ''
   }],
-  emails: ['']
+  email: ''
 }
 
 function registrationFormReducer(state = initialState, action) {

@@ -28,13 +28,6 @@ const PhoneContactInfo = ({value, placeholder, handleUpdate}) => (
   </div>
 );
 
-const EmailContactInfo = ({value, placeholder, handleUpdate}) => (
-  <div className="input-group">
-    <div className="input-group-prepend">@</div>
-    <Form.Control value={value} placeholder={placeholder} onChange={ev => handleUpdate(ev.target.value)} />
-  </div>
-);
-
 
 export default ({ formState, handleUpdate, handleSizeChange }) => {
   return (
@@ -88,6 +81,11 @@ export default ({ formState, handleUpdate, handleSizeChange }) => {
                 <Col><Form.Control name="zipcode" placeholder="Zip" md="3" value={formState.zipcode} onChange={(event => handleUpdate(event.target.name, event.target.value))} /></Col>
               </Row>
               <Row className="mt-4">
+                <Form.Group as={Col}>
+                  <Form.Control name="email" placeholder="Email Address" value={formState.email} onChange={event=> handleUpdate(event.target.name, event.target.value)} />
+                </Form.Group>
+              </Row>
+              <Row className="mt-4">
                 <Form.Group controlId="phones" as={Col}>
                   <Container>
                     <Row>
@@ -115,39 +113,6 @@ export default ({ formState, handleUpdate, handleSizeChange }) => {
                           fieldGroupName="phones"
                           values={formState.phones} 
                           placeholder="###-###-####"
-                          handleUpdate={handleUpdate}
-                         />
-                      </Col>
-                    </Row>
-                  </Container>
-                </Form.Group>
-                <Form.Group controlId="emails" as={Col}>
-                  <Container>
-                    <Row>
-                      <Col>
-                        <Form.Label>Emails</Form.Label>
-                      </Col>
-                      <Col>
-                        <div className="btn-group float-right mb-1 mr-1" role="group">
-                          <Button 
-                            className="btn-sm btn-secondary" 
-                            onClick={() => handleSizeChange("emails", 1)}
-                          > + </Button>
-                          <Button 
-                            className="btn-sm btn-secondary" 
-                            disabled={formState.phones.length <= 0}
-                            onClick={() => handleSizeChange("emails", -1)} 
-                          > - </Button>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <RepeatedFormControl 
-                          as={EmailContactInfo} 
-                          fieldGroupName="emails"
-                          values={formState.emails} 
-                          placeholder="you@domain.com"
                           handleUpdate={handleUpdate}
                          />
                       </Col>

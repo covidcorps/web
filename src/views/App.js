@@ -11,12 +11,14 @@ import {Container, Row, Col} from 'react-bootstrap';
 import Header from '../redux/containers/Header';
 import Home from '../redux/containers/Home';
 import Register from '../redux/registration/container';
+import Profile from '../redux/profile';
 
 import {
   BrowserRouter as Router,
   Switch, 
   Route, 
-  Link
+  Link,
+  Redirect
 } from 'react-router-dom';
 
 
@@ -36,6 +38,7 @@ function App() {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/register" component={Register} />
+                <Route path="/profile" component={Profile} />
               </Switch>
             </Col>
           </Row>
